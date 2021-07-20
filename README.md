@@ -1,4 +1,4 @@
-# Xdrem Mini Custom Theme Template for Themer
+# Xdrem Mini GUI Custom Theme Template for Themer
 
 This template is usefull for Xderm Mini theme creator
 
