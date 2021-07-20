@@ -1,16 +1,16 @@
-# Xdrem Mini GUI Custom Theme Template for Themer
+## Xdrem Mini GUI Custom Theme Template for Themer
 
 This template is usefull for Xderm Mini theme creator
 
-## How to use this template
+### How to use this template
 1. Fork this repository with name format **```xdrtheme-themename-themecreator```** without any white space there.
 2. If you don't want to include file/folder, just write that file/folder name inside **```.gitignore```** file.
 
-## Others
+### Others
 - Use [Discussions Section](https://github.com/helmiau/xdrtheme-themename-themecreator/discussions) to discuss about this template, such as new feature, or improvements.
 - Use [Issues Section](https://github.com/helmiau/xdrtheme-themename-themecreator/issues) if you want to report bug. 
 
-## Credits
+### Credits
 - [Allah Subhanahu wa Ta'ala](https://id.wikipedia.org/wiki/Allah) ~ Penguasa semesta, sang pemilik ilmu sekaligus sumbernya.
 - [Helmi Amirudin](https://github.com/helmiau) ~ Main developer of this template
 - [Ryan Fauzi](https://github.com/ryanfauzi1) ~ Developer Xderm Mini GUI
