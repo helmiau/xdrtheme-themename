@@ -3,8 +3,8 @@
 This template is usefull for Xderm Mini theme creator
 
 ### How to use this template
-1. Fork this repository with name format **```xdrtheme-themename-themecreator```** without any white space there.
-2. If you don't want to include file/folder, just write that file/folder name inside **```.gitignore```** file.
+1. Fork this repository with name format **```xdrtheme-your_theme_name```** without any white space there.
+2. If you want to exclude file or folder, just write that file/folder name inside **```.gitignore```** file.
 
 ### Others
 - Use [Discussions Section](https://github.com/helmiau/xdrtheme-themename-themecreator/discussions) to discuss about this template, such as new feature, or improvements.
