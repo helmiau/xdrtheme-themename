@@ -8,7 +8,7 @@ This template is usefull for Xderm Mini theme creator.
 3. You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for comparison.
 
 #### How to work and use ```xdrtheme-installer``` template script 
-This **```xdrtheme-installer``**` will clone your github repository and update local file by repo clone.
+This **```xdrtheme-installer```** will clone your github repository and update local file by repo clone.
 
 Script features :
 ```
