@@ -8,7 +8,7 @@ This template is usefull for Xderm Mini theme creator.
 3. You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for comparison.
 
 #### How to work and use ```xdrtheme-installer``` template script 
-This ```xdrtheme-installer``` will clone your github repository and update local file by repo clone.
+This **```xdrtheme-installer``**` will clone your github repository and update local file by repo clone.
 
 Script features :
 ```
@@ -21,7 +21,7 @@ Script features :
 7. Remove login panel          : Remove login panel, you don't need to login to configure Xderm Mini Gui.
 ```
 
-Run ```xdrtheme-installer``` using terminal to use this script !
+Run **```xdrtheme-installer```** using terminal to use this script !
  
 #### Discussions, Issues, Bugs, Feature Request and Others
 - Use [Discussions Section](https://github.com/helmiau/xdrtheme-themename/discussions) to discuss about this template, such as new feature request, or improvements.
