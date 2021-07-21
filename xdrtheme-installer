@@ -8,11 +8,6 @@
 #   my profile page https://me.helmiau.my.id
 #   my github https://github.com/helmiau
 #--------------------------------------------------------
-#   Theme Name  : Your Theme Name
-#   Created by  : Theme Creator
-#   Contact     : https://www.facebook.com/your_facebook_id
-#   GitHub Link : https://github.com/your_username/xdrtheme-your_theme_name
-#--------------------------------------------------------
 
 #-- Warna Teks Installer
 RED='\033[0;31m' # Merah
@@ -35,7 +30,7 @@ GITBRANCH=$(grep GITBRANCH /root/xdrtheme-info | sed 's/.*GITBRANCH=//')
 INSTALLERNAME="$(basename "$0")"
 CHECKNET="http://github.com/${GITUSER}/${GITREPO}"
 URLTHEME="${CHECKNET}/${GITBRANCH}"
-GITURLTHEME="git://github.com/${GITUSER}/${GITREPO}.git)"
+GITURLTHEME="git://github.com/${GITUSER}/${GITREPO}.git"
 GITRAW="http://raw.githubusercontent.com/${GITUSER}/${GITREPO}/${GITBRANCH}/"
 XDERMPATH="/www/xderm"
 XDERMPATHBAK="/www/xdermbak"
@@ -125,7 +120,7 @@ elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
 			echo "  Backup created..."
 			mkdir $XDERMPATH
 			echo "  Cloning $GITURLTHEME ..."
-			git clone --depth 1 $GITURLTHEME $XDERMPATH
+			git clone $GITURLTHEME $XDERMPATH
 			echo "  Clone created..."
 			echo "  $THEMENAME by $CREATOR installed..."
 			echo "  Restoring Configs..."
@@ -155,7 +150,7 @@ elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
 			echo "  $XDERMPATHBAK or $XDERMPATH is not available..."
 			mkdir $XDERMPATH
 			echo "  Cloning $GITURLTHEME ..."
-			git clone --depth $GITURLTHEME 1 $XDERMPATH
+			git clone $GITURLTHEME $XDERMPATH
 			echo "  Clone created..."
 			echo "  $THEMENAME by $CREATOR installed..."
 			if [[ -f $THEMEINFO ]]; then
@@ -215,10 +210,11 @@ elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
 			#-- EOF Update Script
 			
 			#-- Update Script with xdrtheme-update file lists
-			cat > /root/$GITREPO-update <<< "/root/xdrtheme-update"
+			cp /root/xdrtheme-update /root/$GITREPO-update
 			sleep 1
 			sed -i '/^$/d' /root/$GITREPO-update
 			sed -i -e "s+^+${GITRAW}+g" /root/$GITREPO-update
+			sleep 1
 			wget -N -i /root/$GITREPO-update -P $XDERMPATH
 			rm /root/$GITREPO-update
 			#-- EOF Update Script
@@ -253,7 +249,7 @@ elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
 			echo "  Starting new installation..."
 			mkdir $XDERMPATH
 			echo "  Cloning $GITURLTHEME ..."
-			git clone --depth 1 $GITURLTHEME $XDERMPATH
+			git clone $GITURLTHEME $XDERMPATH
 			echo "  Clone created..."
 			echo "  $THEMENAME by $CREATOR installed..."
 			if [[ -f $THEMEINFO ]]; then
@@ -303,7 +299,7 @@ elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
 			echo "  Backup created..."
 			mkdir $XDERMPATH
 			echo "  Cloning $GITURLTHEME ..."
-			git clone --depth 1 $GITURLTHEME $XDERMPATH
+			git clone $GITURLTHEME $XDERMPATH
 			echo "  Clone created..."
 			echo "  $THEMENAME by $CREATOR installed..."
 			echo "  Restoring Configs..."
@@ -334,7 +330,7 @@ elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
 			echo "  $XDERMPATHBAK or $XDERMPATH is not available..."
 			mkdir $XDERMPATH
 			echo "  Cloning $GITURLTHEME ..."
-			git clone --depth 1 $GITURLTHEME $XDERMPATH
+			git clone $GITURLTHEME $XDERMPATH
 			echo "  Clone created..."
 			echo "  $THEMENAME by $CREATOR installed..."
 			if [[ -f $THEMEINFO ]]; then
