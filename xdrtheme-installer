@@ -97,7 +97,7 @@ if [[ $jawab == "g" || $jawab == "G"  || $jawab == "1" ]]; then
 		echo "  Internet connected..."
 		echo "  Installing Git Package..."
 		echo "  Checking up git package availability..."
-		if [[ $(opkg list-installed git | grep -c git) != "1" ]]; then
+		if [[ $(opkg list-installed git | grep -c git) = "1" ]]; then
 			echo "  Git package already installed..."
 			echo "  Leaving..."
 		else
