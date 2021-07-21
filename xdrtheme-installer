@@ -54,6 +54,7 @@ XDERMPATHBAKINFO=$(if [ -d $XDERMPATHBAK ]; then echo -e "${GRE}Available"; else
 INSTALLSTAT=$(if [ -e $THEMEINFO ]; then echo -e "${GRE}Installed"; else echo -e "${RED}Not Installed"; fi)
 USERNOW=$(grep user /root/auth.txt | sed 's/.*user=//')
 PASSNOW=$(grep passwd /root/auth.txt | sed 's/.*passwd=//')
+CHECKNET="https://github.com/$GITUSER/$GITREPO"
 SCRIPTVER="2.0"
 
 #-- Installer Scripts
