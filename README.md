@@ -11,7 +11,7 @@ This template is usefull for Xderm Mini theme creator.
 This ```xdrtheme-installer``` will clone your github repository and update local file by repo clone.
 
 Script features :
-````
+```
 1. Install theme               : Installing theme by git clone.
 2. Update theme                : Updating theme.
 3. Uninstall theme             : Remove installed theme.
@@ -20,6 +20,7 @@ Script features :
 6. Install login panel         : Install login panel, you need to login via login panel before you can configure Xderm Mini Gui.
 7. Remove login panel          : Remove login panel, you don't need to login to configure Xderm Mini Gui.
 ```
+
 Run ```xdrtheme-installer``` using terminal to use this script !
  
 #### Discussions, Issues, Bugs, Feature Request and Others
