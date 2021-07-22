@@ -8,7 +8,7 @@ This installer script template is useful for Xderm Mini theme creator.
 </h4>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/20932301/126515598-7665567b-72f0-4cb2-9949-6f6925001c7d.png" alt="ss" class="center">
+<img src="https://user-images.githubusercontent.com/20932301/126584462-e3d0bee2-6e4c-4e40-acad-5e8cbbd9fae1.png" alt="ss" class="center">
 </p>
 
 
