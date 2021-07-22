@@ -165,46 +165,57 @@ function xdrtheme_config_backup() {
 		echo "  Backup directory available, skipping..."			
 	fi
 	if [[ -d $XDERMPATH/config ]]; then
-		mv $XDERMPATH/config $XDERMCONFIGBAK/configbak
+		cp $XDERMPATH/config $XDERMCONFIGBAK/configbak
 		echo "  Config folder backed up..."
 	else
 		echo "  Config folder is not available, skipping..."			
 	fi
 	if [[ -f $XDERMPATH/config.txt ]]; then
-		mv $XDERMPATH/config.txt $XDERMCONFIGBAK/config.txt.bak
+		cp $XDERMPATH/config.txt $XDERMCONFIGBAK/config.txt.bak
 		echo "  Config file backed up..."
 	else
 		echo "  Config file is not available, skipping..."			
 	fi
 	if [[ -f $XDERMPATH/xderm-mini ]]; then
-		mv $XDERMPATH/xderm-mini $XDERMCONFIGBAK/xderm-mini.bak
+		cp $XDERMPATH/xderm-mini $XDERMCONFIGBAK/xderm-mini.bak
 		echo "  Xderm binary file backed up..."
 	else
 		echo "  Xderm binary is not available, skipping..."			
+	fi
+	if [[ -f /root/auth.txt ]]; then
+		cp /root/auth.txt $XDERMCONFIGBAK/auth.txt
+		echo "  Login panel auth backed up..."
+	else
+		echo "  Login panel auth is not available, skipping..."			
 	fi
 }
 
 function xdrtheme_config_restore() {
 	echo "  Restoring Xderm Mini configurations..."
 	if [[ -d $XDERMCONFIGBAK/configbak ]]; then
-		mv $XDERMCONFIGBAK/configbak $XDERMPATH/config
+		cp $XDERMCONFIGBAK/configbak $XDERMPATH/config
 		echo "  Configs folder restored..."
 	else
 		echo "  Config folder is not available, skipping..."			
 	fi
 	if [[ -d $XDERMCONFIGBAK/config.txt.bak ]]; then
-		mv $XDERMCONFIGBAK/config.txt.bak $XDERMPATH/config.txt
+		cp $XDERMCONFIGBAK/config.txt.bak $XDERMPATH/config.txt
 		echo "  Config file restored..."
 	else
 		echo "  Config file is not available, skipping..."			
 	fi
 	if [[ -d $XDERMCONFIGBAK/xderm-mini.bak ]]; then
-		mv $XDERMCONFIGBAK/xderm-mini.bak $XDERMPATH/xderm-mini
+		cp $XDERMCONFIGBAK/xderm-mini.bak $XDERMPATH/xderm-mini
 		echo "  Xderm binary backed up..."
 	else
 		echo "  Xderm binary is not available, skipping..."			
 	fi
-	echo "  Backing up Xderm Mini configurations..."
+	if [[ -f $XDERMCONFIGBAK/auth.txt ]]; then
+		cp $XDERMCONFIGBAK/auth.txt /root/auth.txt
+		echo "  Login panel auth restored..."
+	else
+		echo "  Login panel auth is not available, skipping..."			
+	fi
 	if [[ -d $XDERMCONFIGBAK ]]; then
 		echo "  Backup directory is available, deleting..."
 		rm -rf $XDERMCONFIGBAK
