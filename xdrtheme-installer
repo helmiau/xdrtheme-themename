@@ -10,11 +10,11 @@
 #--------------------------------------------------------
 
 #-- Warna Teks Installer
-RED='\033[0;31m' # Merah
+RED='\033[1;31m' # Merah Muda
 GRE='\033[1;32m' # Hijau Muda
 CYA='\033[0;36m' # Biru Muda
 YEL='\033[1;33m' # Kuning
-NOR='\033[0;37m' # Abu Abu Normal
+NOR='\033[1;37m' # Putih
 
 #-- Theme Info
 THEMENAME=$(grep THEMENAME /root/xdrtheme-info | awk -F'"' '$0=$2')
