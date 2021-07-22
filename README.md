@@ -17,10 +17,11 @@ Current Version : 4.2
 
 
 <br>
+<br>
 <h3 align="center">
-• How xdrtheme-installer Script Working & What features are available on it •
+• Index information page •
 </h3>
-Index information page :
+
 - [How xdrtheme-installer Script Working & What features are available on it](https://github.com/helmiau/xdrtheme-themename#-how-xdrtheme-installer-script-working--what-features-are-available-on-it-)
 - [How to use this template and apply it to your theme](https://github.com/helmiau/xdrtheme-themename#-how-to-use-this-template-and-apply-it-to-your-theme-)
 - [Discussions, Issues, Bugs, Feature Request and Others](https://github.com/helmiau/xdrtheme-themename#-discussions-issues-bugs-feature-request-and-others-)
