@@ -12,7 +12,7 @@
 #-- Warna Teks Installer
 RED='\033[0;31m' # Merah
 GRE='\033[1;32m' # Hijau Muda
-BLU='\033[1;34m' # Biru Muda
+CYA='\033[0;36m' # Biru Muda
 YEL='\033[1;33m' # Kuning
 NOR='\033[0;37m' # Abu Abu Normal
 
@@ -54,7 +54,7 @@ SCRIPTVER="4.2"
 
 #-- Installer Scripts
 echo -e "${NOR}==========================================="
-echo -e "  ${YEL}Xderm Mini Theme Installer v$SCRIPTVER by helmiau${NOR}" #Do not remove this
+echo -e "  ${YEL}Xderm Mini ${CYA}Theme Installer ${RED}v$SCRIPTVER by ${GRE}helmiau${NOR}" #Do not remove this
 echo "==========================================="
 echo -e "  ${GRE}Theme Name      : $THEMENAME"
 echo -e "  ${GRE}Theme Creator   : $CREATOR"
