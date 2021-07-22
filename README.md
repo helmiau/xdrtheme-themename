@@ -16,7 +16,11 @@ Current Version : 4.2
 </h4>
 
 
-### • How to xdrtheme-installer script work
+<br>
+<h3 align="center">
+• How to xdrtheme-installer script work •
+</h3>
+
 **```xdrtheme-installer```** will clone your github repository and update local file by repo clone, which mean this script need **```wget```** and **```git```** packages.
 
 Script features :
