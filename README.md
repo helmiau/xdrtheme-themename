@@ -42,14 +42,9 @@ GITUSER="github_username_account"
 # Change github_repo_theme below with your theme repository name, No space allowed
 GITREPO="github_repo_theme"
 # Change main_master below with your active branch under theme repository, No space allowed
-#--------------------------------------------------------
-GITBRANCH=main_master
-#--------------------------------------------------------
-# Change Theme_Name with  theme version, No space allowed
-# Example : v1.0 or v2.1-beta
-#--------------------------------------------------------
-THEMEVER=v1.0
-#--------------------------------------------------------
+GITBRANCH="main_master"
+# Change Theme_Name with  theme version, No space allowed. Example : v1.0 or v2.1-beta
+THEMEVER="v1.0"
 ```
 Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte/blob/main/xdrtheme-info).
 
