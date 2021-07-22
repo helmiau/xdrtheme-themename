@@ -18,10 +18,10 @@ Current Version : 4.2
 
 <br>
 <h3 align="center">
-• How to xdrtheme-installer script work •
+• How xdrtheme-installer Script Working & What features are available on it •
 </h3>
 
-**```xdrtheme-installer```** will clone your github repository and update local file by repo clone, which mean this script need **```wget```** and **```git```** packages.
+**```xdrtheme-installer```** will clone your github repository and update local file by repo clone, which mean this script need **```wget```** and **```git```** packages. Then this script will read **```xdrtheme-info```** and **```xdrtheme-update```** from your repository which downloaded to local storage **```/root/(here placed file xdrtheme-info and xdrtheme-update```** . 
 
 Script features :
 ```
@@ -36,7 +36,7 @@ Script features :
 
 <br>
 <h3 align="center">
-• How to use this template •
+• How to use this template and apply it to your theme •
 </h3>
 
 1. Click [Use this template button](https://github.com/helmiau/xdrtheme-themename/generate) then give template/repo name by following format **```xdrtheme-your_theme_name```** without any space there. Change **your_theme_name** with your own theme name (without space).
