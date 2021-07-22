@@ -33,24 +33,15 @@ Script features :
 3. Edit **```xdrtheme-info```** with your theme information, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
 
 ```
-#--------------------------------------------------------
-# Change "Theme_Name" below with your theme name, space allowed
-#--------------------------------------------------------
-THEMENAME=Theme_Name
-#--------------------------------------------------------
-# Change "Creator_Name" below with your name, space allowed
-#--------------------------------------------------------
-CREATOR=Creator_Name
-#--------------------------------------------------------
-# Change "github_username_account" below with your github username, No space allowed
-#--------------------------------------------------------
-GITUSER=github_username_account
-#--------------------------------------------------------
-# Change "github_repo_theme" below with your theme repository name, No space allowed
-#--------------------------------------------------------
-GITREPO=github_repo_theme
-#--------------------------------------------------------
-# Change "main_master" below with your active branch under theme repository, No space allowed
+# Change Theme_Name below with your theme name, space allowed
+THEMENAME="Theme_Name"
+# Change Creator_Name below with your name, space allowed
+CREATOR="Creator_Name"
+# Change github_username_account below with your github username, No space allowed
+GITUSER="github_username_account"
+# Change github_repo_theme below with your theme repository name, No space allowed
+GITREPO="github_repo_theme"
+# Change main_master below with your active branch under theme repository, No space allowed
 #--------------------------------------------------------
 GITBRANCH=main_master
 #--------------------------------------------------------
