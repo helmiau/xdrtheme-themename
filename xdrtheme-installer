@@ -40,12 +40,12 @@ XDERMCONFIGBAK="/www/xderm-config"
 THEMEINFO="/www/xderm/$GITREPO-$GITUSER"
 XDERMPATHINFO=$(if [ -d ${XDERMPATH} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 XDERMPATHBAKINFO=$(if [ -d ${XDERMPATHBAK} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
-INSTALLSTAT=$(if [ -e ${THEMEINFO} ]; then echo -e "${GRE}Installed"; else echo -e "${RED}Not Installed"; fi)
+INSTALLSTAT=$(if [ -e "${THEMEINFO}" ]; then echo -e "${GRE}Installed"; else echo -e "${RED}Not Installed"; fi)
 USERNOW=$(grep user /root/auth.txt | sed 's/.*user=//')
 PASSNOW=$(grep passwd /root/auth.txt | sed 's/.*passwd=//')
 LOGINOW=$(if [ -e /www/xderm/login.php ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 LOGINOWBAK=$(if [ -e /www/xderm/login.php.xdrtool ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
-SCRIPTVER="4.0"
+SCRIPTVER="4.1"
 
 #-- Installer Scripts
 echo -e "${NOR}==========================================="
@@ -53,6 +53,7 @@ echo -e "  ${YEL}Xderm Mini Theme Installer v$SCRIPTVER by helmiau${NOR}" #Do no
 echo "==========================================="
 echo -e "  ${GRE}Theme Name      : $THEMENAME"
 echo -e "  ${GRE}Theme Creator   : $CREATOR"
+echo -e "  ${GRE}Theme Version   : $THEMEVER"
 echo -e "  ${GRE}Theme Link      : "
 echo -e "  ${GRE}github.com/$GITUSER/$GITREPO${NOR}"
 # echo -e "  ${GRE}Installer Name  : $INSTALLERNAME${NOR}" # for logging purpose
@@ -93,14 +94,14 @@ echo "==========================================="
 
 function xdrtheme_checknet() {
 	echo "  Checking connections..."
-	if wget -S --spider $CHECKNET 2>&1 | grep -q 'HTTP/1.1 200 OK'; then
+	if wget -S --spider "$CHECKNET" 2>&1 | grep -q 'HTTP/1.1 200 OK'; then
 		echo "  Internet connected..."
 	else
 		echo "  No internet connection or repository url unavailable..."
 		echo "  Leaving."
 		sleep 3
 		clear
-		./$INSTALLERNAME
+		./"$INSTALLERNAME"
 	fi
 }
 
@@ -109,13 +110,13 @@ function xdrtheme_git_install() {
 		echo "  Git package already installed..."
 		echo "  Leaving..."
 		clear
-		./$INSTALLERNAME
+		./"$INSTALLERNAME"
 	else
 		echo "  git package is not installed, installing..."
 		opkg update && opkg install git
 		echo "  Done !."
 		clear
-		./$INSTALLERNAME
+		./"$INSTALLERNAME"
 	fi
 	sleep 2
 }
@@ -203,14 +204,28 @@ function xdrtheme_config_restore() {
 	else
 		echo "  Xderm binary is not available, skipping..."			
 	fi
+	echo "  Backing up Xderm Mini configurations..."
+	if [[ -d $XDERMCONFIGBAK ]]; then
+		echo "  Backup directory is available, deleting..."
+		rm -rf $XDERMCONFIGBAK
+		echo "  Backup directory deleted..."
+	else
+		echo "  Backup directory not available, skipping..."			
+	fi
 }
 
 function xdrtheme_theme_info() {
-	if [[ -f $THEMEINFO ]]; then
+	if [[ -f $THEMEINFO ]] && [[ ! -f $XDERMPATH/index.php ]] && [[ ! -f $XDERMPATH/xderm-mini ]]; then
 		echo "  $THEMEINFO is available, skipping..."
 	else
 		echo "  $THEMEINFO is not available, adding file..."
-		echo "$THEMEINFO" > $THEMEINFO
+		echo "$THEMEINFO" > "$THEMEINFO"
+		echo "THEMENAME=$THEMENAME" >> "$THEMEINFO"
+		echo "CREATOR=$CREATOR" >> "$THEMEINFO"
+		echo "THEMEVER=$THEMEVER" >> "$THEMEINFO"
+		echo "GITUSER=$GITUSER" >> "$THEMEINFO"
+		echo "GITREPO=$GITREPO" >> "$THEMEINFO"
+		echo "GITBRANCH=$GITBRANCH" >> "$THEMEINFO"
 	fi
 }
 
@@ -227,27 +242,36 @@ function xdrtheme_install_theme() {
 		mkdir $XDERMPATH
 		echo "  Xderm Mini directory created..."
 	fi
-	echo "  Cloning $GITURLTHEME ..."
-	git clone $GITURLTHEME $XDERMPATH
-	echo "  Clone created..."
-	echo "  $THEMENAME by $CREATOR installed..."
+	if [[ -d $XDERMPATHBAK ]] && [[ "$(ls -A "$XDERMPATH" 2> /dev/null)" == "" ]] && [[ ! -f $THEMEINFO ]]; then
+		echo "  $THEMEINFO is available, starting installation..."
+		echo "  Cloning $GITURLTHEME ..."
+		git clone "$GITURLTHEME" $XDERMPATH
+		echo "  Clone created..."
+		echo "  $THEMENAME by $CREATOR installed..."
+	else
+		echo "  Installation skipped because..."
+		echo "  $THEMEINFO is available..."
+		echo "  $THEMENAME by $CREATOR already installed..."
+		echo "  If you want to force installation, please use Reinstall menu..."
+	fi
 }
 
 function xdrtheme_update_theme() {
 	echo "  Updating $THEMENAME theme..."
-	cp /root/xdrtheme-update /root/$GITREPO-update
+	cp /root/xdrtheme-update /root/"$GITREPO"-update
 	sleep 1
-	sed -i '/^$/d' /root/$GITREPO-update
-	sed -i -e "s+^+${GITRAW}+g" /root/$GITREPO-update
+	sed -i '/^$/d' /root/"$GITREPO"-update
+	sed -i -e "s+^+${GITRAW}+g" /root/"$GITREPO"-update
 	sleep 1
 	echo "  Downloading theme patches..."
-	wget -N -i /root/$GITREPO-update -P $XDERMPATH
+	wget -N -i /root/"$GITREPO"-update -P $XDERMPATH
 	echo "  Download done..."
-	rm /root/$GITREPO-update
+	rm /root/"$GITREPO"-update
 	echo "  $THEMENAME by $CREATOR updated..."
 }
 
 function xdrtheme_uninstall_theme() {
+	echo -e "${NOR}"
 	echo "  $THEMEINFO is $INSTALLSTAT..."
 	echo -e "${NOR}"
 	echo "  $XDERMPATH is $XDERMPATHINFO..."
@@ -360,7 +384,7 @@ function xdrtheme_install_login() {
 	else
 		echo -e " Install failed ! because login.php backup file is unavailable"
 		echo -e " Try online installation"
-		wget -O /www/xderm/login.php $URLTHEME/login.php -q
+		wget -O /www/xderm/login.php "$URLTHEME"/login.php -q
 		sleep 1
 	fi
 
@@ -373,7 +397,7 @@ function xdrtheme_install_login() {
 	else
 		echo -e " Install failed ! because header.php backup file is unavailable"
 		echo -e " Try online installation"
-		wget -O /www/xderm/header.php $URLTHEME/header.php -q
+		wget -O /www/xderm/header.php "$URLTHEME"/header.php -q
 		sleep 1
 	fi
 
@@ -400,7 +424,7 @@ elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
 	xdrtheme_start_xderm \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Update Theme
 elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
@@ -412,7 +436,7 @@ elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
 	xdrtheme_start_xderm \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Reinstall Theme
 elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
@@ -420,13 +444,14 @@ elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
 	echo "  Reinstallation of $THEMENAME theme by $CREATOR is started..."
 	xdrtheme_checknet \ &&
 	xdrtheme_config_backup \ &&
+	xdrtheme_uninstall_theme \ &&
 	xdrtheme_install_theme \ &&
 	xdrtheme_config_restore \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Uninstall Theme
 elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
@@ -439,28 +464,28 @@ elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
 	xdrtheme_start_xderm \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Change username and password
 elif [[ $jawab == "up" || $jawab == "UP" || $jawab == "6" ]]; then
 	xdrtheme_change_auth \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Change username only
 elif [[ $jawab == "un" || $jawab == "UN" || $jawab == "7" ]]; then
 	xdrtheme_change_user \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Change password only
 elif [[ $jawab == "pw" || $jawab == "PW" || $jawab == "8" ]]; then
 	xdrtheme_change_pass \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Installer login page
 elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
@@ -468,7 +493,7 @@ elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
 	xdrtheme_install_login \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Remover login page
 elif [[ $jawab == "rl" || $jawab == "RL" || $jawab == "10" ]]; then
@@ -476,7 +501,7 @@ elif [[ $jawab == "rl" || $jawab == "RL" || $jawab == "10" ]]; then
 	xdrtheme_remove_login \ &&
 	echo "==========================================="
 	clear
-	./$INSTALLERNAME
+	./"$INSTALLERNAME"
 
 #-- Exit program
 else
