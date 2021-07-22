@@ -8,9 +8,8 @@ This installer script template is useful for Xderm Mini theme creator.
 </h4>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/20932301/126584462-e3d0bee2-6e4c-4e40-acad-5e8cbbd9fae1.png" alt="ss" class="center">
+<img src="https://user-images.githubusercontent.com/20932301/126717702-d7c3e416-335e-44e5-b733-a0e7010a6659.png" alt="ss" class="center">
 </p>
-
 
 ### • How to xdrtheme-installer script work
 **```xdrtheme-installer```** will clone your github repository and update local file by repo clone, which mean this script need **```wget```** and **```git```** packages.
@@ -30,7 +29,7 @@ Script features :
 ### • How to use this template
 1. Click [Use this template button](https://github.com/helmiau/xdrtheme-themename/generate) then give template/repo name by following format **```xdrtheme-your_theme_name```** without any space there. Change **your_theme_name** with your own theme name (without space).
 2. If you want to exclude file or folder from cloning, just write that file/folder name inside **```.gitignore```** file.
-3. Edit **```xdrtheme-info```** with your theme information, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
+3. Edit **```xdrtheme-info```** with **your theme information**, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
 
 ```
 # Change Theme_Name below with your theme name, space allowed
@@ -58,7 +57,7 @@ config.txt
 ```
 Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte/blob/main/xdrtheme-update).
 
-5. After that, replace login.php, header.php and other files from this repositoru with your own files, or you can add your files which is unavailable under this template. Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte).
+5. After that, **replace login.php, header.php and other files and folders** from this repository **with your own files**, or you can **add your files which is unavailable under this template**. Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte).
 6. Add installation section below to your README.md repository to keep your installer script up-to-update.
 
 ````
@@ -69,8 +68,8 @@ wget -O xdrtheme-info https://raw.githubusercontent.com/your_github_username/you
 ```
 ````
 
-7. Change **```your_github_username```** script above with your github username. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
-8. Change **```your_theme_repository```** script above with with your theme repository name. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
+7. Change **```your_github_username```** from script above with **your github username**. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
+8. Change **```your_theme_repository```** from script above with with **your theme repository name**. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
 9. Run command **```./xdrtheme-installer```** then follow the instructions.
 
 **Important !!! Don't rename ```xdrtheme-info``` and ```xdrtheme-update```. Otherwise you will get an error when using this script !. You are allowed to rename ```xdrtheme-installer``` file only to other name you desired.** 
