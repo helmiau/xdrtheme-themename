@@ -81,12 +81,11 @@ wget -O xdrtheme-info https://raw.githubusercontent.com/your_github_username/you
 ```
 ````
 
-- Change **```your_github_username```** script above with your github username.
-- Change **```your_theme_repository```** script above with with your theme repository name.
-- Run command **```./xdrtheme-installer```** then follow the instructions.
+7. Change **```your_github_username```** script above with your github username.
+8. Change **```your_theme_repository```** script above with with your theme repository name.
+9. Run command **```./xdrtheme-installer```** then follow the instructions.
 
-** Important !!! Don't rename ```xdrtheme-info``` and ```xdrtheme-update```. Otherwise you will get an error when using this script.
- You allowed to rename ```xdrtheme-installer``` only to other name you desired.** 
+**Important !!! Don't rename ```xdrtheme-info``` and ```xdrtheme-update```. Otherwise you will get an error when using this script. You allowed to rename ```xdrtheme-installer``` file only to other name you desired.** 
 
 Note :
 - You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for sample.
