@@ -17,12 +17,12 @@ YEL='\033[1;33m' # Kuning
 NOR='\033[0;37m' # Abu Abu Normal
 
 #-- Theme Info
-THEMENAME=$(grep THEMENAME /root/xdrtheme-info | sed 's/.*THEMENAME=//')
-CREATOR=$(grep CREATOR /root/xdrtheme-info | sed 's/.*CREATOR=//')
-THEMEVER=$(grep THEMEVER /root/xdrtheme-info | sed 's/.*THEMEVER=//')
-GITUSER=$(grep GITUSER /root/xdrtheme-info | sed 's/.*GITUSER=//')
-GITREPO=$(grep GITREPO /root/xdrtheme-info | sed 's/.*GITREPO=//')
-GITBRANCH=$(grep GITBRANCH /root/xdrtheme-info | sed 's/.*GITBRANCH=//')
+THEMENAME=$(grep THEMENAME /root/xdrtheme-info | awk -F'"' '$0=$2')
+CREATOR=$(grep CREATOR /root/xdrtheme-info | awk -F'"' '$0=$2')
+THEMEVER=$(grep THEMEVER /root/xdrtheme-info | awk -F'"' '$0=$2')
+GITUSER=$(grep GITUSER /root/xdrtheme-info | awk -F'"' '$0=$2')
+GITREPO=$(grep GITREPO /root/xdrtheme-info | awk -F'"' '$0=$2')
+GITBRANCH=$(grep GITBRANCH /root/xdrtheme-info | awk -F'"' '$0=$2')
 # UPDATELIST=$(grep UPDATELIST /root/xdrtheme-info | sed 's/.*UPDATELIST=//')
 #-- Theme Info End
 
