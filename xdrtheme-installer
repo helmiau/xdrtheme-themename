@@ -41,11 +41,16 @@ THEMEINFO="/www/xderm/$GITREPO-$GITUSER"
 XDERMPATHINFO=$(if [ -d ${XDERMPATH} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 XDERMPATHBAKINFO=$(if [ -d ${XDERMPATHBAK} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 INSTALLSTAT=$(if [ -e "${THEMEINFO}" ]; then echo -e "${GRE}Installed"; else echo -e "${RED}Not Installed"; fi)
-USERNOW=$(grep user /root/auth.txt | sed 's/.*user=//')
-PASSNOW=$(grep passwd /root/auth.txt | sed 's/.*passwd=//')
+if [ -f /root/auth.txt ]; then
+	USERNOW=$(grep user /root/auth.txt | sed 's/.*user=//')
+	PASSNOW=$(grep passwd /root/auth.txt | sed 's/.*passwd=//')
+else
+	USERNOW="${RED}auth file not exist"
+	PASSNOW="${RED}auth file not exist"
+fi
 LOGINOW=$(if [ -e /www/xderm/login.php ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 LOGINOWBAK=$(if [ -e /www/xderm/login.php.xdrtool ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
-SCRIPTVER="4.1"
+SCRIPTVER="4.2"
 
 #-- Installer Scripts
 echo -e "${NOR}==========================================="
@@ -226,7 +231,7 @@ function xdrtheme_config_restore() {
 }
 
 function xdrtheme_theme_info() {
-	if [[ -f $THEMEINFO ]] && [[ ! -f $XDERMPATH/index.php ]] && [[ ! -f $XDERMPATH/xderm-mini ]]; then
+	if [[ ! -f $XDERMPATH/index.php ]] && [[ -f $THEMEINFO ]] && [[ ! -f $XDERMPATH/xderm-mini ]]; then
 		echo "  $THEMEINFO is available, skipping..."
 	else
 		echo "  $THEMEINFO is not available, adding file..."
@@ -416,6 +421,34 @@ function xdrtheme_install_login() {
 	echo -e " Install login page process finished..."
 }
 
+function xderm_return_installer() {
+	echo "==========================================="
+	clear
+	if [[ -f /root/$INSTALLERNAME ]]; then
+		./"$INSTALLERNAME"
+	elif [[ -f /root/$INSTALLERNAME ]] && [[ -f /bin/$INSTALLERNAME ]]; then
+		"$INSTALLERNAME"
+	elif [[ ! -f /root/$INSTALLERNAME ]] && [[ -f /bin/$INSTALLERNAME ]]; then
+		"$INSTALLERNAME"
+	else
+		echo "==========================================="
+		echo e- "  $INSTALLERNAME not found ! Reinstalling.."
+		echo "==========================================="
+		wget -O /bin/"$INSTALLERNAME" s.id/xdrtool -q
+		chmod +x /bin/"$INSTALLERNAME"
+		if [[ -f /bin/$INSTALLERNAME ]] && [[ ! -f /bin/$INSTALLERNAME ]]; then
+			cp /bin/"$INSTALLERNAME" /root/"$INSTALLERNAME"
+			chmod +x /root/"$INSTALLERNAME"
+		elif [[ -f /bin/$INSTALLERNAME ]] && [[ -f /bin/$INSTALLERNAME ]]; then
+			rm /root/"$INSTALLERNAME"
+			cp /bin/"$INSTALLERNAME" /root/"$INSTALLERNAME"
+			chmod +x /root/"$INSTALLERNAME"
+		fi
+		echo e- "  Script reinstalled.. re run $INSTALLERNAME command for usage"
+		echo "==========================================="
+	fi
+}
+
 #-- Install Git
 if [[ $jawab == "g" || $jawab == "G" || $jawab == "1" ]]; then
 	clear
@@ -433,9 +466,7 @@ elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
 	xdrtheme_install_theme \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Update Theme
 elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
@@ -445,9 +476,7 @@ elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
 	xdrtheme_update_theme \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Reinstall Theme
 elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
@@ -460,9 +489,7 @@ elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
 	xdrtheme_config_restore \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Uninstall Theme
 elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
@@ -473,46 +500,34 @@ elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
 	xdrtheme_xderm_restore \ &&
 	xdrtheme_config_restore \ &&
 	xdrtheme_start_xderm \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Change username and password
 elif [[ $jawab == "up" || $jawab == "UP" || $jawab == "6" ]]; then
 	xdrtheme_change_auth \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Change username only
 elif [[ $jawab == "un" || $jawab == "UN" || $jawab == "7" ]]; then
 	xdrtheme_change_user \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Change password only
 elif [[ $jawab == "pw" || $jawab == "PW" || $jawab == "8" ]]; then
 	xdrtheme_change_pass \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Installer login page
 elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
 	clear
 	xdrtheme_install_login \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Remover login page
 elif [[ $jawab == "rl" || $jawab == "RL" || $jawab == "10" ]]; then
 	clear
 	xdrtheme_remove_login \ &&
-	echo "==========================================="
-	clear
-	./"$INSTALLERNAME"
+	xderm_return_installer
 
 #-- Exit program
 else
