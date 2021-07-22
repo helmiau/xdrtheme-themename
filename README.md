@@ -28,29 +28,29 @@ Script features :
 
 
 ### • How to use this template
-1. Click [Use this template button](https://github.com/helmiau/xdrtheme-themename/generate) then give template/repo name by using format **```xdrtheme-your_theme_name```** without any space there. Change **your_theme_name** to your own theme name.
+1. Click [Use this template button](https://github.com/helmiau/xdrtheme-themename/generate) then give template/repo name by following format **```xdrtheme-your_theme_name```** without any space there. Change **your_theme_name** with your own theme name (without space).
 2. If you want to exclude file or folder from cloning, just write that file/folder name inside **```.gitignore```** file.
-3. Fill **```xdrtheme-info```** with your theme information, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
+3. Edit **```xdrtheme-info```** with your theme information, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
 
 ```
 #--------------------------------------------------------
-# Change "Theme_Name" with your theme name below, space allowed
+# Change "Theme_Name" below with your theme name, space allowed
 #--------------------------------------------------------
 THEMENAME=Theme_Name
 #--------------------------------------------------------
-# Change "Creator_Name" with  your name below, space allowed
+# Change "Creator_Name" below with your name, space allowed
 #--------------------------------------------------------
 CREATOR=Creator_Name
 #--------------------------------------------------------
-# Change "github_username_account" with  your github username below, No space allowed
+# Change "github_username_account" below with your github username, No space allowed
 #--------------------------------------------------------
 GITUSER=github_username_account
 #--------------------------------------------------------
-# Change "github_repo_theme" with  your theme repository name below, No space allowed
+# Change "github_repo_theme" below with your theme repository name, No space allowed
 #--------------------------------------------------------
 GITREPO=github_repo_theme
 #--------------------------------------------------------
-# Change "main_master" with your active branch under theme repository, No space allowed
+# Change "main_master" below with your active branch under theme repository, No space allowed
 #--------------------------------------------------------
 GITBRANCH=main_master
 #--------------------------------------------------------
@@ -60,6 +60,7 @@ GITBRANCH=main_master
 THEMEVER=v1.0
 #--------------------------------------------------------
 ```
+Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte/blob/main/xdrtheme-info).
 
 4. Fill **```xdrtheme-update```** with files which will be attached when updating theme. I made an example below :
 
@@ -69,8 +70,9 @@ index.php
 header.php
 config.txt
 ```
+Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte/blob/main/xdrtheme-update).
 
-5. After that, you should make your files and folders structure like this repo. You can replace login.php, header.php and other files with your own files, or You can add your files which is unavailable under this template.
+5. After that, replace login.php, header.php and other files from this repositoru with your own files, or you can add your files which is unavailable under this template. Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adminlte).
 6. Add installation section below to your README.md repository to keep your installer script up-to-update.
 
 ````
@@ -81,14 +83,13 @@ wget -O xdrtheme-info https://raw.githubusercontent.com/your_github_username/you
 ```
 ````
 
-7. Change **```your_github_username```** script above with your github username.
-8. Change **```your_theme_repository```** script above with with your theme repository name.
+7. Change **```your_github_username```** script above with your github username. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
+8. Change **```your_theme_repository```** script above with with your theme repository name. See this [example](https://github.com/squarepants96/xdrtheme-adminlte).
 9. Run command **```./xdrtheme-installer```** then follow the instructions.
 
-**Important !!! Don't rename ```xdrtheme-info``` and ```xdrtheme-update```. Otherwise you will get an error when using this script. You allowed to rename ```xdrtheme-installer``` file only to other name you desired.** 
+**Important !!! Don't rename ```xdrtheme-info``` and ```xdrtheme-update```. Otherwise you will get an error when using this script !. You are allowed to rename ```xdrtheme-installer``` file only to other name you desired.** 
 
-Note :
-- You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for sample.
+Note : You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for sample comparison.
 
 
 ### • Discussions, Issues, Bugs, Feature Request and Others
