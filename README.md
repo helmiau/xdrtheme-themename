@@ -69,7 +69,7 @@ Still confused? see this [example](https://github.com/squarepants96/xdrtheme-adm
 ## Installation
 Copy scripts below and run it via **```terminal```**
 ```
-wget -O xdrtheme-info https://raw.githubusercontent.com/your_github_username/your_theme_repository/main/xdrtheme-info && wget -O xdrtheme-update https://raw.githubusercontent.com/your_github_username/your_theme_repository/main/xdrtheme-update && wget -O xdrtheme-installer https://raw.githubusercontent.com/helmiau/xdrtheme-themename/main/xdrtheme-installer && chmod +x xdrtheme-installer && ./xdrtheme-installer
+wget -O xdrtheme-info http://raw.githubusercontent.com/your_github_username/your_theme_repository/main/xdrtheme-info && wget -O xdrtheme-update http://raw.githubusercontent.com/your_github_username/your_theme_repository/main/xdrtheme-update && wget -O xdrtheme-installer http://bit.ly/xdrtheme-installer && chmod +x xdrtheme-installer && ./xdrtheme-installer
 ```
 ````
 
