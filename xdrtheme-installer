@@ -33,14 +33,19 @@ URLTHEME="${CHECKNET}/${GITBRANCH}"
 GITURLTHEME="git://github.com/${GITUSER}/${GITREPO}.git"
 GITRAW="http://raw.githubusercontent.com/${GITUSER}/${GITREPO}/${GITBRANCH}/"
 XDERMPATH="/www/xderm"
+# XDERMOLDTHEME=$(ls ${XDERMPATH} | grep xdrtheme | sed 's/.*xdrtheme-//')
+# XDERMOLDTHEMEBAK=$(ls /www | grep -q xderm | sed 's/.*//')
 XDERMPATHBAK="/www/xdermbak"
+XDERMCONFIGBAK="/www/xderm-config"
 THEMEINFO="/www/xderm/$GITREPO-$GITUSER"
 XDERMPATHINFO=$(if [ -d ${XDERMPATH} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 XDERMPATHBAKINFO=$(if [ -d ${XDERMPATHBAK} ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 INSTALLSTAT=$(if [ -e ${THEMEINFO} ]; then echo -e "${GRE}Installed"; else echo -e "${RED}Not Installed"; fi)
 USERNOW=$(grep user /root/auth.txt | sed 's/.*user=//')
 PASSNOW=$(grep passwd /root/auth.txt | sed 's/.*passwd=//')
-SCRIPTVER="3.0"
+LOGINOW=$(if [ -e /www/xderm/login.php ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
+LOGINOWBAK=$(if [ -e /www/xderm/login.php.xdrtool ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
+SCRIPTVER="4.0"
 
 #-- Installer Scripts
 echo -e "${NOR}==========================================="
@@ -48,18 +53,21 @@ echo -e "  ${YEL}Xderm Mini Theme Installer v$SCRIPTVER by helmiau${NOR}" #Do no
 echo "==========================================="
 echo -e "  ${GRE}Theme Name      : $THEMENAME"
 echo -e "  ${GRE}Theme Creator   : $CREATOR"
-echo -e "  ${GRE}Theme Link      : github.com/$GITUSER/$GITREPO${NOR}"
+echo -e "  ${GRE}Theme Link      : "
+echo -e "  ${GRE}github.com/$GITUSER/$GITREPO${NOR}"
 # echo -e "  ${GRE}Installer Name  : $INSTALLERNAME${NOR}" # for logging purpose
 # echo -e "  ${GRE}Git RAW         : $GITRAW${NOR}" # for logging purpose
 # echo -e "  ${GRE}Check Net       : $CHECKNET${NOR}" # for logging purpose
-# echo -e "  ${GRE}Check Net       : $CHECKNET${NOR}" # for logging purpose
+# echo -e "  ${GRE}Older Xdrm Path : $XDERMOLDTHEME${NOR}" # for logging purpose
 echo "==========================================="
 echo -e "  ${GRE}Install Status  : $INSTALLSTAT"
 echo -e "  ${GRE}Xderm Path      : $XDERMPATHINFO"
 echo -e "  ${GRE}Xderm Backup    : $XDERMPATHBAKINFO${NOR}"
 echo "==========================================="
-echo -e "  ${BLU}Panel Username  : $USERNOW"
-echo -e "  ${YEL}Panel Password  : $PASSNOW${NOR}"
+echo -e "  ${YEL}Panel Username  : $USERNOW"
+echo -e "  ${YEL}Panel Password  : $PASSNOW"
+echo -e "  ${YEL}Login Page      : $LOGINOW"
+echo -e "  ${YEL}Login Pg Backup : $LOGINOWBAK${NOR}"
 echo "==========================================="
 echo -e "               ${YEL}Command Lists${NOR}"
 echo -e "===========================================${GRE}"
@@ -81,340 +89,252 @@ echo -n "   Enter Your Option : "
 read -r jawab
 echo "==========================================="
 
-#-- Install Git
-if [[ $jawab == "g" || $jawab == "G" || $jawab == "1" ]]; then
-	clear
+# wget -S --spider github.com/squarepants96/xdrtheme-adminlte 2>&1 #Network Checker
+
+function xdrtheme_checknet() {
 	echo "  Checking connections..."
 	if wget -S --spider $CHECKNET 2>&1 | grep -q 'HTTP/1.1 200 OK'; then
 		echo "  Internet connected..."
-		echo "  Installing Git Package..."
-		echo "  Checking up git package availability..."
-		if [[ $(opkg list-installed git | grep -c git) = "1" ]]; then
-			echo "  Git package already installed..."
-			echo "  Leaving..."
-		else
-			echo "  git package is not installed, installing..."
-			opkg update && opkg install git
-			echo "  Done !."
-		fi
 	else
 		echo "  No internet connection or repository url unavailable..."
 		echo "  Leaving."
+		sleep 3
+		clear
+		./$INSTALLERNAME
 	fi
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Install Theme
-elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
-	clear
-	echo "  Checking connections..."
-	if wget -S --spider $CHECKNET 2>&1 | grep -q 'HTTP/1.1 200 OK' ; then
-		echo "  Internet connected..."
-		echo "  Installing $THEMENAME..."
-		echo "  Checking paths..."
-		if [[ -d $XDERMPATH ]]; then
-			echo "  $XDERMPATH is available..."
-			echo "  Creating backup path..."
-			mv $XDERMPATH $XDERMPATHBAK
-			echo "  Backup created..."
-			mkdir $XDERMPATH
-			echo "  Cloning $GITURLTHEME ..."
-			git clone $GITURLTHEME $XDERMPATH
-			echo "  Clone created..."
-			echo "  $THEMENAME by $CREATOR installed..."
-			echo "  Restoring Configs..."
-			if [[ -d $XDERMPATHBAK/config ]]; then
-				cp -R $XDERMPATHBAK/config $XDERMPATH/config
-				echo "  Configs Restored..."
-			else
-				echo "  Config folder is not available, skipping..."			
-			fi
-			if [[ -d $XDERMPATHBAK/config.txt ]]; then
-				cp $XDERMPATHBAK/config.txt $XDERMPATH/config.txt
-				echo "  Configs Restored..."
-			else
-				echo "  Config file is not available, skipping..."			
-			fi
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		else
-			echo "  $XDERMPATHBAK or $XDERMPATH is not available..."
-			mkdir $XDERMPATH
-			echo "  Cloning $GITURLTHEME ..."
-			git clone $GITURLTHEME $XDERMPATH
-			echo "  Clone created..."
-			echo "  $THEMENAME by $CREATOR installed..."
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		fi
+function xdrtheme_git_install() {
+	if [[ $(opkg list-installed git | grep -c git) = "1" ]]; then
+		echo "  Git package already installed..."
+		echo "  Leaving..."
+		clear
+		./$INSTALLERNAME
 	else
-		echo "  No internet connection or repository url unavailable..."
-		echo "  Leaving."
+		echo "  git package is not installed, installing..."
+		opkg update && opkg install git
+		echo "  Done !."
+		clear
+		./$INSTALLERNAME
 	fi
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+	sleep 2
+}
 
-#-- Update Theme
-elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
-	clear
-	echo "  Checking connections..."
-	if wget -S --spider $CHECKNET 2>&1 | grep -q 'HTTP/1.1 200 OK'; then
-		echo "  Internet connected..."
-		echo "  Update theme started..."
-		echo "  Backing up configurations..."
-		if [[ -d $XDERMPATH/config ]]; then
-			mv $XDERMPATH/config $XDERMPATH/configbak
-			echo "  Configs backed up..."
-		else
-			echo "  Config folder is not available, skipping..."			
-		fi
-		if [[ -d $XDERMPATH/config.txt ]]; then
-			mv $XDERMPATH/config.txt $XDERMPATH/config.txt.bak
-			echo "  Configs backed up..."
-		else
-			echo "  Config file is not available, skipping..."			
-		fi
-		echo "  Updating $THEMENAME theme..."
-		echo "  Checking paths..."
-		if [[ -d $XDERMPATH ]]; then
-			echo "  $XDERMPATH is available..."
-			echo "  Updating ..."
-			
-			#-- Update Script old
-			#if [[ -f /root/$GITREPO-update ]]; then
-			#	touch /root/$GITREPO-update
-			#fi
-			#cat > /root/$GITREPO-update <<< $UPDATELIST
-			#sleep 1
-			#sed -i '/^$/d' /root/$GITREPO-update
-			#sed -i -e "s+^+${GITRAW}+g" /root/$GITREPO-update
-			#wget -N -i /root/$GITREPO-update -P $XDERMPATH
-			#-- EOF Update Script
-			
-			#-- Update Script with xdrtheme-update file lists
-			cp /root/xdrtheme-update /root/$GITREPO-update
-			sleep 1
-			sed -i '/^$/d' /root/$GITREPO-update
-			sed -i -e "s+^+${GITRAW}+g" /root/$GITREPO-update
-			sleep 1
-			wget -N -i /root/$GITREPO-update -P $XDERMPATH
-			rm /root/$GITREPO-update
-			#-- EOF Update Script
-			
-			echo "  $THEMENAME by $CREATOR updated..."
-			echo "  Restoring Configs..."
-			if [[ -d $XDERMPATHBAK/configbak ]]; then
-				cp -R $XDERMPATHBAK/configbak $XDERMPATH/config
-				echo "  Configs Restored..."
-			else
-				echo "  Config folder is not available, skipping..."			
-			fi
-			if [[ -d $XDERMPATHBAK/config.txt.bak ]]; then
-				cp $XDERMPATHBAK/config.txt.bak $XDERMPATH/config.txt
-				echo "  Configs Restored..."
-			else
-				echo "  Config file is not available, skipping..."			
-			fi
-			echo "  Configs Restored..."
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		else
-			echo "  $XDERMPATHBAK or $XDERMPATH is not available..."
-			echo "  Starting new installation..."
-			mkdir $XDERMPATH
-			echo "  Cloning $GITURLTHEME ..."
-			git clone $GITURLTHEME $XDERMPATH
-			echo "  Clone created..."
-			echo "  $THEMENAME by $CREATOR installed..."
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		fi
-	else
-		echo "  No internet connection or repository url unavailable..."
-		echo "  Leaving."
+function xdrtheme_xderm_backup() {
+	echo "  Creating $XDERMOLDTHEME backup..."
+	if [[ -d $XDERMPATH ]] && [[ -d $XDERMPATHBAK ]]; then
+		echo "  Removing older backup..."
+		rm -rf $XDERMPATHBAK
+		echo "  Creating older xderm theme backup..."
+		mv $XDERMPATH $XDERMPATHBAK
+		echo "  Backup created..."
+	elif [[ -d $XDERMPATH ]] && [[ ! -d $XDERMPATHBAK ]]; then
+		echo "  Creating older xderm theme backup..."
+		mv $XDERMPATH $XDERMPATHBAK
+		echo "  Backup created..."
+	elif [[ ! -d $XDERMPATH ]]; then
+		echo "  Older Xderm Mini folder is not available, skip backup..."		
 	fi
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Reinstall Theme
-elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
-	clear
-	echo "  Checking connections..."
-	if wget -S --spider $CHECKNET 2>&1 | grep -q 'HTTP/1.1 200 OK'; then
-		echo "  Internet connected..."
-		echo "  Backing up configurations..."
-		if [[ -d $XDERMPATH/config ]]; then
-			mv $XDERMPATH/config $XDERMPATH/configbak
-			echo "  Configs backed up..."
-		else
-			echo "  Config folder is not available, skipping..."			
-		fi
-		if [[ -d $XDERMPATH/config.txt ]]; then
-			mv $XDERMPATH/config.txt $XDERMPATH/config.txt.bak
-			echo "  Configs backed up..."
-		else
-			echo "  Config file is not available, skipping..."			
-		fi
-		echo "  Reinstalling / Updating $THEMENAME theme..."
-		echo "  Checking paths..."
-		if [[ -d $XDERMPATH ]]; then
-			echo "  $XDERMPATH is available..."
-			echo "  Creating backup path..."
-			mv $XDERMPATH $XDERMPATHBAK
-			echo "  Backup created..."
-			mkdir $XDERMPATH
-			echo "  Cloning $GITURLTHEME ..."
-			git clone $GITURLTHEME $XDERMPATH
-			echo "  Clone created..."
-			echo "  $THEMENAME by $CREATOR installed..."
-			echo "  Restoring Configs..."
-			if [[ -d $XDERMPATHBAK/configbak ]]; then
-				cp -R $XDERMPATHBAK/configbak $XDERMPATH/config
-				echo "  Configs Restored..."
-			else
-				echo "  Config folder is not available, skipping..."			
-			fi
-			if [[ -d $XDERMPATHBAK/config.txt.bak ]]; then
-				cp $XDERMPATHBAK/config.txt.bak $XDERMPATH/config.txt
-				echo "  Configs Restored..."
-			else
-				echo "  Config file is not available, skipping..."			
-			fi
-			echo "  Configs Restored..."
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		else
-			echo "  $XDERMPATHBAK or $XDERMPATH is not available..."
-			mkdir $XDERMPATH
-			echo "  Cloning $GITURLTHEME ..."
-			git clone $GITURLTHEME $XDERMPATH
-			echo "  Clone created..."
-			echo "  $THEMENAME by $CREATOR installed..."
-			if [[ -f $THEMEINFO ]]; then
-				echo "  $THEMEINFO is available, skipping..."
-			else
-				echo "  $THEMEINFO is not available, adding file..."
-				echo "$THEMEINFO" > $THEMEINFO
-			fi
-			echo "  Starting Xderm Mini..."
-			echo Start > /www/xderm/log/st
-			echo "  Xderm Mini Started..."
-			echo "  Done ! Refresh Xderm Mini Page"
-		fi
-	else
-		echo "  No internet connection or repository url unavailable..."
-		echo "  Leaving."
-	fi
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
-
-#-- Uninstall Theme
-elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
-	clear
-	echo "  Uninstalling $THEMENAME..."
-	echo "  Checking paths..."
-	if [[ -f $THEMEINFO ]]; then
-		echo "  $THEMEINFO is $INSTALLSTAT${NOR}..."
-		echo "  $XDERMPATH is $XDERMPATHINFO..."
-		echo "  $XDERMPATHBAK is $XDERMPATHBAKINFO..."
-		echo "  Restoring Configs..."
-		cp $XDERMPATH/config $XDERMPATHBAK/config
-		cp $XDERMPATH/config.txt $XDERMPATHBAK/config.txt
-		echo "  Removing $THEMENAME inside $XDERMPATH..."
+function xdrtheme_xderm_restore() {
+	echo "  Restoring $XDERMOLDTHEME backup..."
+	if [[ -d $XDERMPATHBAK ]] && [[ -d $XDERMPATH ]]; then
+		echo "  Removing older backup..."
 		rm -rf $XDERMPATH
-		echo "  Restoring backup..."
+		echo "  Restoring older xderm theme backup..."
 		mv $XDERMPATHBAK $XDERMPATH
 		echo "  Backup restored..."
-		echo "  $THEMENAME by $CREATOR uninstalled..."
-		echo "  Starting Xderm Mini..."
-		echo Start > /www/xderm/log/st
-		echo "  Xderm Mini Started..."
-		echo "  Done ! Refresh Xderm Mini Page"
+	elif [[ -d $XDERMPATHBAK ]] && [[ ! -d $XDERMPATH ]]; then
+		echo "  Creating older xderm theme backup..."
+		mv $XDERMPATHBAK $XDERMPATH
+		echo "  Backup restored..."
+	elif [[ ! -d $XDERMPATHBAK ]]; then
+		echo "  Older Xderm Mini folder is not available, skip backup..."		
+	fi
+}
+
+function xdrtheme_config_backup() {
+	echo "  Backing up Xderm Mini configurations..."
+	if [[ ! -d $XDERMCONFIGBAK ]]; then
+		echo "  Backup directory is not available, creating..."
+		mkdir $XDERMCONFIGBAK
+		echo "  Backup directory created..."
+	else
+		echo "  Backup directory available, skipping..."			
+	fi
+	if [[ -d $XDERMPATH/config ]]; then
+		mv $XDERMPATH/config $XDERMCONFIGBAK/configbak
+		echo "  Config folder backed up..."
+	else
+		echo "  Config folder is not available, skipping..."			
+	fi
+	if [[ -f $XDERMPATH/config.txt ]]; then
+		mv $XDERMPATH/config.txt $XDERMCONFIGBAK/config.txt.bak
+		echo "  Config file backed up..."
+	else
+		echo "  Config file is not available, skipping..."			
+	fi
+	if [[ -f $XDERMPATH/xderm-mini ]]; then
+		mv $XDERMPATH/xderm-mini $XDERMCONFIGBAK/xderm-mini.bak
+		echo "  Xderm binary file backed up..."
+	else
+		echo "  Xderm binary is not available, skipping..."			
+	fi
+}
+
+function xdrtheme_config_restore() {
+	echo "  Restoring Xderm Mini configurations..."
+	if [[ -d $XDERMCONFIGBAK/configbak ]]; then
+		mv $XDERMCONFIGBAK/configbak $XDERMPATH/config
+		echo "  Configs folder restored..."
+	else
+		echo "  Config folder is not available, skipping..."			
+	fi
+	if [[ -d $XDERMCONFIGBAK/config.txt.bak ]]; then
+		mv $XDERMCONFIGBAK/config.txt.bak $XDERMPATH/config.txt
+		echo "  Config file restored..."
+	else
+		echo "  Config file is not available, skipping..."			
+	fi
+	if [[ -d $XDERMCONFIGBAK/xderm-mini.bak ]]; then
+		mv $XDERMCONFIGBAK/xderm-mini.bak $XDERMPATH/xderm-mini
+		echo "  Xderm binary backed up..."
+	else
+		echo "  Xderm binary is not available, skipping..."			
+	fi
+}
+
+function xdrtheme_theme_info() {
+	if [[ -f $THEMEINFO ]]; then
+		echo "  $THEMEINFO is available, skipping..."
+	else
+		echo "  $THEMEINFO is not available, adding file..."
+		echo "$THEMEINFO" > $THEMEINFO
+	fi
+}
+
+function xdrtheme_start_xderm() {
+	echo "  Starting Xderm Mini..."
+	echo Start > /www/xderm/log/st
+	echo "  Xderm Mini Started..."
+	echo "  Done ! Refresh Xderm Mini Page"
+}
+
+function xdrtheme_install_theme() {
+	if [[ ! -d $XDERMPATH ]]; then
+		echo "  Xderm Mini directory is unavailable, creating..."
+		mkdir $XDERMPATH
+		echo "  Xderm Mini directory created..."
+	fi
+	echo "  Cloning $GITURLTHEME ..."
+	git clone $GITURLTHEME $XDERMPATH
+	echo "  Clone created..."
+	echo "  $THEMENAME by $CREATOR installed..."
+}
+
+function xdrtheme_update_theme() {
+	echo "  Updating $THEMENAME theme..."
+	cp /root/xdrtheme-update /root/$GITREPO-update
+	sleep 1
+	sed -i '/^$/d' /root/$GITREPO-update
+	sed -i -e "s+^+${GITRAW}+g" /root/$GITREPO-update
+	sleep 1
+	echo "  Downloading theme patches..."
+	wget -N -i /root/$GITREPO-update -P $XDERMPATH
+	echo "  Download done..."
+	rm /root/$GITREPO-update
+	echo "  $THEMENAME by $CREATOR updated..."
+}
+
+function xdrtheme_uninstall_theme() {
+	echo "  $THEMEINFO is $INSTALLSTAT..."
+	echo -e "${NOR}"
+	echo "  $XDERMPATH is $XDERMPATHINFO..."
+	echo -e "${NOR}"
+	echo "  $XDERMPATHBAK is $XDERMPATHBAKINFO..."
+	echo -e "${NOR}"
+	echo "  Uninstalling $THEMENAME..."
+	sleep 1
+	if [[ -f $THEMEINFO ]] && [[ -d $XDERMPATH ]] && [[ -d $XDERMPATHBAK ]]; then
+		echo "  Removing $THEMENAME inside $XDERMPATH..."
+		rm -rf $XDERMPATH
+		echo "  $THEMENAME uninstalled..."
+	elif [[ -f $THEMEINFO ]]; then
+		echo "  Removing $THEMENAME inside $XDERMPATH..."
+		rm -rf $XDERMPATH
+		echo "  $THEMENAME uninstalled..."
 	else
 		echo "  $XDERMPATH or $XDERMPATHBAK or $THEMEINFO is not available..."
-		echo "  Leaving ..."
+		echo "  Leaving ..."	
 	fi
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Change username and password
-elif [[ $jawab == "up" || $jawab == "UP" || $jawab == "6" ]]; then
+function xdrtheme_change_auth() {
 	echo -n "  Enter New Username : " 
 	read -r USERNEW
 	echo "==========================================="
 	echo -n "  Enter New Password : " 
 	read -r PASSNEW
 	echo -e "user=$USERNEW\npasswd=$PASSNEW" > /root/auth.txt
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Change username only
-elif [[ $jawab == "un" || $jawab == "UN" || $jawab == "7" ]]; then
+function xdrtheme_change_user() {
 	echo -n "  Enter New Username : " 
 	read -r USERNEW
 	echo -e "user=$USERNEW\npasswd=$PASSNOW" > /root/auth.txt
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Change password only
-elif [[ $jawab == "pw" || $jawab == "PW" || $jawab == "8" ]]; then
+function xdrtheme_change_pass() {
 	echo -n "  Enter New Password : "
 	read -r PASSNEW
 	echo -e "user=$USERNOW\npasswd=$PASSNEW" > /root/auth.txt
-	echo "==========================================="
-	clear
-	./$INSTALLERNAME
+}
 
-#-- Installer login page
-elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
-	clear
+function xdrtheme_remove_login() {
+	echo "==========================================="
+	echo -e "     Xderm Mini Login Page Remover by helmiau "
+	echo "==========================================="
+	echo -e " "
+	echo -e "Notes : "
+	echo -e "- This script will remove xderm-mini login page"
+	echo -e "- Please clear all web history and cache after removal!"
+	echo -e "- If bug occured, Open incognito tab"
+	echo -e "- If bug still occured, Use other browser"
+	echo -e ""
+	echo -e " Process starting after 2 secs....."
+	sleep 2
+	echo -e " Removal process started..."
+	sleep 1
+	echo -e ""
+
+	echo -e " Finding login.php file..."
+	nyari=$(find /www/xderm)
+	if [[ $nyari == *"login.php"* ]]; then
+		mv /www/xderm/login.php /www/xderm/login.php.xdrtool
+		echo -e " login.php file deleted !"
+		sleep 1
+	else
+		echo -e " Removal failed ! because login.php file is unavailable"
+		sleep 1
+	fi
+
+	echo -e " Finding header.php file..."
+	nyari=$(find /www/xderm)
+	if [[ $nyari == *"header.php"* ]]; then
+		mv /www/xderm/header.php /www/xderm/header.php.xdrtool
+		echo -e " header.php file deleted !"
+		sleep 1
+	else
+		echo -e " Removal failed ! because login.php file is unavailable"
+		sleep 1
+	fi
+
+	echo "==========================================="
+	echo -e " Removal login page process finished..."
+}
+
+function xdrtheme_install_login() {
 	echo "==========================================="
 	echo -e "     Xderm Mini Login Page Installer by helmiau "
 	echo "==========================================="
@@ -459,6 +379,93 @@ elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
 
 	echo "==========================================="
 	echo -e " Install login page process finished..."
+}
+
+#-- Install Git
+if [[ $jawab == "g" || $jawab == "G" || $jawab == "1" ]]; then
+	clear
+	xdrtheme_checknet \ &&
+	xdrtheme_git_install \ &&
+	echo "==========================================="
+
+#-- Install Theme
+elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
+	clear
+	echo "  Installation of $THEMENAME theme by $CREATOR is started..."
+	xdrtheme_checknet \ &&
+	xdrtheme_xderm_backup \ &&
+	xdrtheme_config_backup \ &&
+	xdrtheme_install_theme \ &&
+	xdrtheme_theme_info \ &&
+	xdrtheme_start_xderm \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Update Theme
+elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
+	clear
+	echo "  Update of $THEMENAME theme by $CREATOR is started..."
+	xdrtheme_checknet \ &&
+	xdrtheme_update_theme \ &&
+	xdrtheme_theme_info \ &&
+	xdrtheme_start_xderm \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Reinstall Theme
+elif [[ $jawab == "rt" || $jawab == "RT" || $jawab == "4" ]]; then
+	clear
+	echo "  Reinstallation of $THEMENAME theme by $CREATOR is started..."
+	xdrtheme_checknet \ &&
+	xdrtheme_config_backup \ &&
+	xdrtheme_install_theme \ &&
+	xdrtheme_config_restore \ &&
+	xdrtheme_theme_info \ &&
+	xdrtheme_start_xderm \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Uninstall Theme
+elif [[ $jawab == "ut" || $jawab == "UT" || $jawab == "5" ]]; then
+	clear
+	echo "  Uninstallation of $THEMENAME theme by $CREATOR is started..."
+	xdrtheme_config_backup \ &&
+	xdrtheme_uninstall_theme \ &&
+	xdrtheme_xderm_restore \ &&
+	xdrtheme_config_restore \ &&
+	xdrtheme_start_xderm \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Change username and password
+elif [[ $jawab == "up" || $jawab == "UP" || $jawab == "6" ]]; then
+	xdrtheme_change_auth \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Change username only
+elif [[ $jawab == "un" || $jawab == "UN" || $jawab == "7" ]]; then
+	xdrtheme_change_user \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Change password only
+elif [[ $jawab == "pw" || $jawab == "PW" || $jawab == "8" ]]; then
+	xdrtheme_change_pass \ &&
+	echo "==========================================="
+	clear
+	./$INSTALLERNAME
+
+#-- Installer login page
+elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
+	clear
+	xdrtheme_install_login \ &&
 	echo "==========================================="
 	clear
 	./$INSTALLERNAME
@@ -466,47 +473,7 @@ elif [[ $jawab == "il" || $jawab == "IL" || $jawab == "9" ]]; then
 #-- Remover login page
 elif [[ $jawab == "rl" || $jawab == "RL" || $jawab == "10" ]]; then
 	clear
-	clear
-	echo "==========================================="
-	echo -e "     Xderm Mini Login Page Remover by helmiau "
-	echo "==========================================="
-	echo -e " "
-	echo -e "Notes : "
-	echo -e "- This script will remove xderm-mini login page"
-	echo -e "- Please clear all web history and cache after removal!"
-	echo -e "- If bug occured, Open incognito tab"
-	echo -e "- If bug still occured, Use other browser"
-	echo -e ""
-	echo -e " Process starting after 2 secs....."
-	sleep 2
-	echo -e " Removal process started..."
-	sleep 1
-	echo -e ""
-
-	echo -e " Finding login.php file..."
-	nyari=$(find /www/xderm)
-	if [[ $nyari == *"login.php"* ]]; then
-		mv /www/xderm/login.php /www/xderm/login.php.xdrtool
-		echo -e " login.php file deleted !"
-		sleep 1
-	else
-		echo -e " Removal failed ! because login.php file is unavailable"
-		sleep 1
-	fi
-
-	echo -e " Finding header.php file..."
-	nyari=$(find /www/xderm)
-	if [[ $nyari == *"header.php"* ]]; then
-		mv /www/xderm/header.php /www/xderm/header.php.xdrtool
-		echo -e " header.php file deleted !"
-		sleep 1
-	else
-		echo -e " Removal failed ! because login.php file is unavailable"
-		sleep 1
-	fi
-
-	echo "==========================================="
-	echo -e " Removal login page process finished..."
+	xdrtheme_remove_login \ &&
 	echo "==========================================="
 	clear
 	./$INSTALLERNAME
