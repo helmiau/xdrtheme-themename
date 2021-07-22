@@ -30,8 +30,11 @@ Script features :
 7. Remove login panel          : Remove login panel, you don't need to login to configure Xderm Mini Gui.
 ```
 
+<br>
+<h3 align="center">
+• How to use this template •
+</h3>
 
-### • How to use this template
 1. Click [Use this template button](https://github.com/helmiau/xdrtheme-themename/generate) then give template/repo name by following format **```xdrtheme-your_theme_name```** without any space there. Change **your_theme_name** with your own theme name (without space).
 2. If you want to exclude file or folder from cloning, just write that file/folder name inside **```.gitignore```** file.
 3. Edit **```xdrtheme-info```** with **your theme information**, such as : Theme name, Theme creator, Github username, Theme repository, and active branch which containing theme repository. I made an example below :
@@ -82,13 +85,20 @@ wget -O xdrtheme-info http://raw.githubusercontent.com/your_github_username/your
 Note : You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/squarepants96/xdrtheme-adminlte) for sample comparison.
 
 
-### • Discussions, Issues, Bugs, Feature Request and Others
+<br>
+<h3 align="center">
+• Discussions, Issues, Bugs, Feature Request and Others •
+</h3>
+
 - Use [Discussions Section](https://github.com/helmiau/xdrtheme-themename/discussions) to discuss about this template, such as new feature request, or improvements.
 - Use [Issues Section](https://github.com/helmiau/xdrtheme-themename/issues) if you want to report bug.
 - This script is created by [helmiau a.k.a Helmi Amirudin](https://github.com/helmiau) from nothing, so if you need to help me by coding or fixing bug or you desire to give some donation. Please contact me at [My contact site](https://me.helmiau.my.id) or [Discussions Section](https://github.com/helmiau/xdrtheme-themename/discussions)
 
+<br>
+<h3 align="center">
+• Credits •
+</h3>
 
-### • Credits
 - [Allah Subhanahu wa Ta'ala](https://id.wikipedia.org/wiki/Allah) ~ Penguasa semesta, sang pemilik ilmu sekaligus sumbernya.
 - [Helmi Amirudin](https://github.com/helmiau) ~ Main developer of this template
 - [Ryan Fauzi](https://github.com/ryanfauzi1) ~ Developer Xderm Mini GUI
