@@ -11,6 +11,11 @@ This installer script template is useful for Xderm Mini theme creator.
 <img src="https://user-images.githubusercontent.com/20932301/126717702-d7c3e416-335e-44e5-b733-a0e7010a6659.png" alt="ss" class="center">
 </p>
 
+<h4 align="center">
+Current Version : 4.2
+</h4>
+
+
 ### • How to xdrtheme-installer script work
 **```xdrtheme-installer```** will clone your github repository and update local file by repo clone, which mean this script need **```wget```** and **```git```** packages.
 
