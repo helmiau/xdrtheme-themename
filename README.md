@@ -12,7 +12,7 @@ This installer script template is useful for Xderm Mini theme creator.
 </p>
 
 <h4 align="center">
-Current Version : 4.2
+Current Version : 4.3
 </h4>
 
 
