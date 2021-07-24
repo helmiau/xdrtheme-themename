@@ -50,7 +50,7 @@ else
 fi
 LOGINOW=$(if [ -e /www/xderm/login.php ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
 LOGINOWBAK=$(if [ -e /www/xderm/login.php.xdrtool ]; then echo -e "${GRE}Available"; else echo -e "${RED}Unavailable"; fi)
-SCRIPTVER="4.2"
+SCRIPTVER="4.3"
 
 #-- Installer Scripts
 echo -e "${NOR}==========================================="
@@ -464,6 +464,7 @@ elif [[ $jawab == "i" || $jawab == "I" || $jawab == "2" ]]; then
 	xdrtheme_xderm_backup \ &&
 	xdrtheme_config_backup \ &&
 	xdrtheme_install_theme \ &&
+	xdrtheme_config_restore \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
 	xderm_return_installer
@@ -473,7 +474,9 @@ elif [[ $jawab == "u" || $jawab == "U" || $jawab == "3" ]]; then
 	clear
 	echo "  Update of $THEMENAME theme by $CREATOR is started..."
 	xdrtheme_checknet \ &&
+	xdrtheme_config_backup \ &&
 	xdrtheme_update_theme \ &&
+	xdrtheme_config_restore \ &&
 	xdrtheme_theme_info \ &&
 	xdrtheme_start_xderm \ &&
 	xderm_return_installer
