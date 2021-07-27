@@ -1,6 +1,6 @@
 
 <h2 align="center">
-Xdrem Mini GUI Custom Theme Template for Themer
+Xderm Mini GUI Custom Theme Template for Themer
 </h2>
 
 <h4 align="center">
