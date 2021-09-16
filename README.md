@@ -122,4 +122,4 @@ Note : You can see [squarepants96/xdrtheme-adminlte repo's](https://github.com/s
 - [Ardi Setiawan](https://github.com/squarepants96) ~ Kang tester dan creator tema [Admin LTE](https://github.com/squarepants96/xdrtheme-adminlte)
 
 <br>
-<h5 align="center">Copyright by <a href="https://me.helmiau.my.id">Helmi Amirudin</a> ® 2021 <br> Thank You ! 🤝</h3>
+<h5 align="center">Copyright by <a href="https://helmiau.github.io">Helmi Amirudin</a> ® 2021 <br> Thank You ! 🤝</h3>
