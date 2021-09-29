@@ -22,10 +22,10 @@ Current Version : 4.3
 • Index information page •
 </h3>
 
-- [How xdrtheme-installer Script Working & What features are available on it](https://github.com/helmiau/xdrtheme-themename#-how-xdrtheme-installer-script-working--what-features-are-available-on-it-)
-- [How to use this template and apply it to your theme](https://github.com/helmiau/xdrtheme-themename#-how-to-use-this-template-and-apply-it-to-your-theme-)
-- [Discussions, Issues, Bugs, Feature Request and Others](https://github.com/helmiau/xdrtheme-themename#-discussions-issues-bugs-feature-request-and-others-)
-- [Credits](https://github.com/helmiau/xdrtheme-themename#-credits-)
+- [How xdrtheme-installer Script Working & What features are available on it](#-how-xdrtheme-installer-script-working--what-features-are-available-on-it-)
+- [How to use this template and apply it to your theme](#-how-to-use-this-template-and-apply-it-to-your-theme-)
+- [Discussions, Issues, Bugs, Feature Request and Others](#-discussions-issues-bugs-feature-request-and-others-)
+- [Credits](#-credits-)
 
 <br>
 <h3 align="center">
